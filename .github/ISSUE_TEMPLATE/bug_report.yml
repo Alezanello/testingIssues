@@ -13,7 +13,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        <!-- issue-form-marker: v1 -->
+        <!-- issue:bug_report_v1 -->
 
   - type: input
     id: expected_behavior
