@@ -15,11 +15,11 @@ jobs:
           script: |
             const issueBody = context.payload.issue.body;
 
-            // Expected hidden field value from the issue form
-            const expectedFormVersion = 'issue-form-v1';
+            // Expected HTML comment marker from the issue form
+            const expectedMarker = '<!-- issue-form-marker: v1 -->';
 
-            // Check if the issue body contains the hidden form version
-            if (!issueBody.includes(expectedFormVersion)) {
+            // Check if the issue body contains the expected marker
+            if (!issueBody.includes(expectedMarker)) {
               // Post a comment explaining why the issue is being closed
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
