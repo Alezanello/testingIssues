@@ -21,17 +21,23 @@ jobs:
             // Output the issue body for debugging
             console.log('Issue Body:', issueBody);
 
-            // Regular expression to match the marker, ignoring whitespace
-            const markerRegex = /<!--\s*issue:bug_report_v1\s*-->/;
+            // Define required sections that should be present in the issue template
+            const requiredSections = [
+              '### Expected Behavior',
+              '### Actual Behavior',
+              '### Steps to Reproduce'
+            ];
 
-            // Check if the issue body matches the marker regex
-            if (!markerRegex.test(issueBody)) {
+            // Check if all required sections are present
+            const missingSections = requiredSections.filter(section => !issueBody.includes(section));
+
+            if (missingSections.length > 0) {
               // Post a comment explaining why the issue is being closed
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: `Thank you for opening an issue. However, it appears that you did not use our issue form. Please resubmit your issue using the provided issue form so we have all the necessary information to assist you. This issue will now be closed.`,
+                body: `Thank you for opening an issue. However, it seems that you did not use the provided issue template or did not fill out all required sections. Please edit your issue to include all required sections. This issue will be closed.`,
               });
 
               // Close the issue
@@ -42,5 +48,5 @@ jobs:
                 state: 'closed',
               });
             } else {
-              console.log('Issue created using the issue form.');
+              console.log('Issue contains all required sections.');
             }
