@@ -6,8 +6,15 @@ body:
   - type: markdown
     attributes:
       value: |
-        <!-- Please make sure you are using the latest version. -->
-  
+        <!--
+        🚨 Please make sure you are using the latest version.
+        -->
+
+  - type: markdown
+    attributes:
+      value: |
+        <!-- issue-form-marker: v1 -->
+
   - type: input
     id: expected_behavior
     attributes:
@@ -38,8 +45,3 @@ body:
         4. See error
     validations:
       required: true
-
-  - type: hidden
-    id: form_version
-    attributes:
-      value: "issue-form-v1"
