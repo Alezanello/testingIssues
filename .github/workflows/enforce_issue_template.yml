@@ -1,1 +1,38 @@
+name: Enforce Issue Template
 
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  enforce-template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if issue was created via the issue form
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueBody = context.payload.issue.body;
+
+            // Expected hidden field value from the issue form
+            const expectedFormVersion = 'issue-form-v1';
+
+            // Check if the issue body contains the hidden form version
+            if (!issueBody.includes(expectedFormVersion)) {
+              // Post a comment explaining why the issue is being closed
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `Thank you for opening an issue. However, it appears that you did not use our issue form. Please resubmit your issue using the provided issue form so we have all the necessary information to assist you. This issue will now be closed.`,
+              });
+
+              // Close the issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed',
+              });
+            }
