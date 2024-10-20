@@ -19,7 +19,7 @@ jobs:
             const issueBody = context.payload.issue.body;
 
             // Expected HTML comment marker from the issue form
-            const expectedMarker = '<!-- issue:bug_report_v1 -->';
+            const expectedMarker = '<!-- issue-form-marker: v1 -->';
 
             // Check if the issue body contains the expected marker
             if (!issueBody.includes(expectedMarker)) {
